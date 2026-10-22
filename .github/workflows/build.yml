@@ -14,8 +14,12 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: 8.7
-      - run: unzip -q MiniMapHider.zip
-      - run: cd MiniMapHider && gradle assembleDebug --no-daemon
+      - name: Unzip if needed
+        run: |
+          if [ -f MiniMapHider.zip ]; then unzip -oq MiniMapHider.zip; fi
+          ls
+      - name: Build
+        run: cd MiniMapHider && gradle assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4
         with:
           name: MiniMapHider-apk
